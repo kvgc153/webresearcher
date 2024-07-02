@@ -26,6 +26,7 @@ var classnames =["color1","color2","color3","color4","color5","color6","color7",
 var htmlAppend = $("html").append(`
 <div id="userButtonPanelWBJS" class = "userButtonPanelWBJS">
 	<div class ="btn" style="width:100%; text-align: center; font-weight:1000"> 
+	&#10021;
 	<input type="text" id="tagsWBJS" style="width:100%;font-family: inherit; font-size:15px; height:25px; " placeholder="Enter Tags: Comma-separated"><br>
 	</div>
 	<div>

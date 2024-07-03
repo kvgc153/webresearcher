@@ -103,7 +103,7 @@ function handleMessage(request, sender, sendResponse) {
   }
   if(request.greeting==="save"){
     var foo_final = JSON.parse(request.data);
-    var makeHTML = "<div id='tags'>"+foo_final["TAGS"]+"</div>";
+    var makeHTML = "<div id='title'>"+request.url+"</div>" + "<div id='tags'>"+foo_final["TAGS"]+"</div>";
     var keys = Object.keys(foo_final["WBJS_HTML_NOTES"]);
     for(var i=0;i<keys.length;i++){
       makeHTML+=foo_final["WBJS_HTML_NOTES"][keys[i]];
@@ -119,10 +119,11 @@ function handleMessage(request, sender, sendResponse) {
     }
 
     var bl = new Blob([makeHTML], {type: "text/html"});
+    var updatedURL = request.url.replaceAll(".","_").replaceAll(":","_").replaceAll("?","_").replaceAll("=","_").replaceAll("&","_").replaceAll("#","_").replaceAll("%","_").replaceAll("@","_").replaceAll("!","_")
     browser.downloads.download({
       'url': URL.createObjectURL(bl),
       // 'filename': "WBJS/" + request.url.split("/")[0]  +"/notes.json",
-      'filename': "WBJS/" + request.url +"/notes.html",
+      'filename': "WBJS/" + updatedURL +"/notes.html",
       'saveAs': false,
       'conflictAction':"overwrite"
     })

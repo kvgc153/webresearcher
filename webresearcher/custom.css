@@ -21,6 +21,7 @@
   display: inline-block;
   overflow: auto;
   resize: both;
+  contenteditable: true;
   box-sizing: border-box; /* To include padding and border in element's total width and height */
 
   /* Added properties for a fancy look */

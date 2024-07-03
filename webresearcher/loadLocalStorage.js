@@ -28,9 +28,10 @@ if(localStorage.getItem(webPageUrl)!=null){
 
     /// Make div for note
     newNode1.innerHTML= `
-      <div id=`+"tooltip" + note_count + ` class="WBJSNote">
-      </div>
+      <div id=`+"tooltip" + note_count + ` class="WBJSNote">` + foo_loaded['HTML'][foo_loaded_keys[k]] + `</div>
       `;
+
+
     let notestyleProps = foo_loaded['CSS'][foo_loaded_keys[k]];
     let notestyleEl =   document.getElementById("tooltip"+note_count).style;
 
@@ -52,52 +53,7 @@ if(localStorage.getItem(webPageUrl)!=null){
     notestyleEl.transform         = notestyleProps.transform;
     notestyleEl.resize            = "both";
 
-
-    editorJSObjs[note_count] = new EditorJS({
-        holder: "tooltip"+note_count,
-        tools: {
-          header: {
-            class: Header,
-            inlineToolbar:true,
-            config: {
-            placeholder: 'Header'
-            },
-            shortcut: 'CMD+SHIFT+H'
-          },
-          image: SimpleImage,
-          list: {
-            class: List,
-            inlineToolbar: true,
-            shortcut: 'CMD+SHIFT+L'
-          },
-          quote: {
-            class: Quote,
-            inlineToolbar: true,
-            config: {
-            quotePlaceholder: 'Enter a quote',
-            captionPlaceholder: 'Quote\'s author',
-            },
-            shortcut: 'CMD+SHIFT+O'
-          },
-          code: CodeTool,
-          },
-        data:  foo_loaded['JSON'][foo_loaded_keys[k]],
-        onReady: () =>{
-          if(webHash.length>0){
-              //check if there are any hashes in the url and if so scroll to that note
-            console.info("WBJS: Scrolling to note");
-            var fooScroll  = document.querySelector(webHash);
-            fooScroll.scrollIntoView();
-
-          }
-        },
-      //   onChange: (api, event) => {
-      //     console.log('Now I know that Editor\'s content changed!', event)
-      //     saved();
-      // }
-        // readOnly: true, // for now dont allow users to edit the previous imported notes.. Needd some fixes before that..
-
-      });
+  
     $('#'+"tooltip"+note_count).mousedown(handle_mousedown); // move popper
 
     note_count+=1; // update note counter
@@ -143,52 +99,11 @@ async function saved(){
       }
 
 
-
-      await editorJSObjs[i].save()
-      .then((savedData) =>{
-          // Convert JSON to html using parser
-          const edjsParser    = edjsHTML();
-          let html            = edjsParser.parse(savedData);
-
-          // Save the JSON, CSS
-          WBJS_JSON[i]    = savedData;
-          WBJS_CSS[i]     = notestyleProps;
-          WBJS_HTML[i]    = html.join('');
-
-          // if(MarkJSHighlight==="true"){
-          //   // If user wants contextual highlighting use markJS to do so.. still Experimental feature
-          //   for(foo_HTML=0; foo_HTML<html.length;foo_HTML++){
-          //     /// MARKJS
-          //     var div = document.createElement("div");
-          //     div.innerHTML =   html[foo_HTML] ;
-          //     var text = div.textContent || div.innerText || "";
-          //     div.innerHTML = '';
-          //     var brands = text;
-
-          //     var instance = new Mark(document.querySelector("body"));
-
-          //     instance.mark(brands, {
-          //         separateWordSearch: false,
-          //         acrossElements: true,
-          //         accuracy: {
-          //           value: "partially",
-          //           limiters: [".", ",", "!"]
-          //         },
-          //         exclude: [".ui-widget-content *"],
-          //         className: classnames[getRandomInt(classnames.length)]
-
-          //     });
-
-          //   }
-
-          // }
+      WBJS_JSON[i]    = '';
+      WBJS_CSS[i]     = notestyleProps;
+      WBJS_HTML[i]    = document.getElementById("tooltip"+i).innerHTML;
 
 
-
-
-      }).catch((error) =>{
-          console.log(error);
-      })
   }
   let foo_final ={};
   foo_final['HTML'] = WBJS_HTML;

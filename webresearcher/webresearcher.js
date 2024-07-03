@@ -36,41 +36,7 @@ class WBJS{
     var tooltipNode = document.getElementById("tooltip"+this.noteID);
     tooltipNode.setAttribute("style","background-color:"+defaultNoteColor+";font-size:"+ defaultFont +";opacity:"+defaultOpacity);
     tooltipNode.classList.add("WBJSNote")
-
-    editorJSObjs[this.noteID] = new EditorJS({
-      holder: "tooltip"+this.noteID,
-      tools: {
-        header: {
-          class: Header,
-          inlineToolbar:true,
-          config: {
-          placeholder: 'Header'
-          },
-          shortcut: 'CMD+SHIFT+H'
-        },
-        image: SimpleImage,
-        list: {
-          class: List,
-          inlineToolbar: true,
-          shortcut: 'CMD+SHIFT+L'
-        },
-        quote: {
-          class: Quote,
-          inlineToolbar: true,
-          config: {
-          quotePlaceholder: 'Enter a quote',
-          captionPlaceholder: 'Quote\'s author',
-          },
-          shortcut: 'CMD+SHIFT+O'
-        },
-        code: CodeTool,
-        },
-      // onChange: (api, event) => {
-      //     console.log('Now I know that Editor\'s content changed!', event)
-      //     saved();
-      // }
-    });
-
+    tooltipNode.innerHTML = '<div contenteditable="true">Enter text here</div>';
 
   }
   popperAlign(){

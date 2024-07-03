@@ -8,7 +8,7 @@ function handleError(error) {
 
 function notifyBackgroundPage(e) {
   let sending = browser.runtime.sendMessage({
-    greeting: "Sending trigger to start extension"
+    greeting: "load"
   });
   sending.then(handleResponse, handleError);
 }

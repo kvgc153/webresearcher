@@ -97,8 +97,14 @@ function loadOtherModules(tabID){
 function handleMessage(request, sender, sendResponse) {
   console.log("Message from the content script: " + request.greeting);
   console.log(sender.tab.id);
-  loadJQuery(sender.tab.id);
-  sendResponse({response: "Response from background script"});
+  if(request.greeting == "load"){
+    loadJQuery(sender.tab.id);
+    sendResponse({response: "Response from background script"});
+  }
+  if(request.greeting == "save"){
+    console.log("save");
+    sendResponse({response: "Response from background script"});
+  }
 }
 // Trigger loading of modules //
 browser.runtime.onMessage.addListener(handleMessage);

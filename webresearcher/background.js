@@ -101,9 +101,31 @@ function handleMessage(request, sender, sendResponse) {
     loadJQuery(sender.tab.id);
     sendResponse({response: "Response from background script"});
   }
-  if(request.greeting == "save"){
-    console.log("save");
-    sendResponse({response: "Response from background script"});
+  if(request.greeting==="save"){
+    var foo_final = JSON.parse(request.data);
+    var makeHTML = "<div id='tags'>"+foo_final["TAGS"]+"</div>";
+    var keys = Object.keys(foo_final["WBJS_HTML_NOTES"]);
+    for(var i=0;i<keys.length;i++){
+      makeHTML+=foo_final["WBJS_HTML_NOTES"][keys[i]];
+
+      // var bl = new Blob([foo_final["HTML"][keys[i]]], {type: "text/html"});
+      // browser.downloads.download({
+      //   'url': URL.createObjectURL(bl),
+      //   // 'filename': "WBJS/" + request.url.split("/")[0]  +"/notes.json",
+      //   'filename': "WBJS/" + request.url +"/note" + i + ".html",
+      //   'saveAs': false,
+      //   'conflictAction':"overwrite"
+      // })
+    }
+
+    var bl = new Blob([makeHTML], {type: "text/html"});
+    browser.downloads.download({
+      'url': URL.createObjectURL(bl),
+      // 'filename': "WBJS/" + request.url.split("/")[0]  +"/notes.json",
+      'filename': "WBJS/" + request.url +"/notes.html",
+      'saveAs': false,
+      'conflictAction':"overwrite"
+    })
   }
 }
 // Trigger loading of modules //

@@ -102,6 +102,7 @@ async function saved(){
       WBJS_JSON[i]    = '';
       WBJS_CSS[i]     = notestyleProps;
       WBJS_HTML[i]    = document.getElementById("tooltip"+i).innerHTML;
+      WBJS_HTML_NOTES[i]    = document.getElementById("tooltip"+i).outerHTML;
 
 
   }
@@ -109,10 +110,18 @@ async function saved(){
   foo_final['HTML'] = WBJS_HTML;
   foo_final['JSON'] = WBJS_JSON;
   foo_final['CSS']  = WBJS_CSS;
+  foo_final['WBJS_HTML_NOTES'] = WBJS_HTML_NOTES;
   foo_final['TAGS'] = document.getElementById('tagsWBJS').value;
 
   console.info("auto saving data");
   localStorage.setItem(webPageUrl,JSON.stringify(foo_final));
 
+
+  let sending = browser.runtime.sendMessage({
+    greeting: "save",
+    data: JSON.stringify(foo_final),
+    url: webPageUrl
+  });
+  sending.then(handleResponse, handleError);  
 }
-var intervalId = setInterval(saved,15000); 
+var intervalId = setInterval(saved,30000); 

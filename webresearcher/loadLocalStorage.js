@@ -124,4 +124,4 @@ async function saved(){
   });
   sending.then(handleResponse, handleError);  
 }
-var intervalId = setInterval(saved,30000); 
+// var intervalId = setInterval(saved,30000); 

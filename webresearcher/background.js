@@ -103,7 +103,7 @@ function handleMessage(request, sender, sendResponse) {
   }
   if(request.greeting==="save"){
     var foo_final = JSON.parse(request.data);
-    var makeHTML = "<div id='title'>"+request.url+"</div>" + "<div id='tags'>"+foo_final["TAGS"]+"</div>";
+    var makeHTML = "<div id='title'>https://"+request.url+"</div>" + "<div id='tags'>"+foo_final["TAGS"]+"</div>";
     var keys = Object.keys(foo_final["WBJS_HTML_NOTES"]);
     for(var i=0;i<keys.length;i++){
       makeHTML+=foo_final["WBJS_HTML_NOTES"][keys[i]];

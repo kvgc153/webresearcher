@@ -1,8 +1,24 @@
 // Check if there are any notes already in localstorage and if so load them up
 $.notify("WBJS is initializing.", "info",{autoHideDelay: 30000});
 
-if(localStorage.getItem(webPageUrl)!=null){
-  var foo_loaded        = JSON.parse(localStorage.getItem(webPageUrl));
+// if(localStorage.getItem(webPageUrl)!=null){
+  // var foo_loaded        = JSON.parse(localStorage.getItem(webPageUrl));
+  var foo_loaded = {};
+  var dataPacket = {};
+  dataPacket['key'] = webPageUrl;
+  fetch(`http://localhost:3000/getData`,
+  {
+      body: JSON.stringify(dataPacket),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },          
+  }
+  ).then((results) => {
+    results.json().then((data) => {
+      console.log(data);
+      foo_loaded = JSON.parse(data.value);
+
   // set tags
   var foo_tags          = foo_loaded['TAGS'] ?? ""; // if tags are not present, set it to empty string
   document.getElementById('tagsWBJS').value = foo_tags;
@@ -58,7 +74,13 @@ if(localStorage.getItem(webPageUrl)!=null){
 
     note_count+=1; // update note counter
   }
-}
+  
+    });
+  });
+
+
+
+// }
 
 // async function which automatically saves the notes to localstorage every x seconds
 
@@ -114,14 +136,17 @@ async function saved(){
   foo_final['TAGS'] = document.getElementById('tagsWBJS').value;
 
   console.info("auto saving data");
-  localStorage.setItem(webPageUrl,JSON.stringify(foo_final));
+  // if(note_count>1){
+  //   localStorage.setItem(webPageUrl,JSON.stringify(foo_final));
 
 
-  let sending = browser.runtime.sendMessage({
-    greeting: "save",
-    data: JSON.stringify(foo_final),
-    url: webPageUrl
-  });
-  sending.then(handleResponse, handleError);  
+  //   // let sending = browser.runtime.sendMessage({
+  //   //   greeting: "save",
+  //   //   data: JSON.stringify(foo_final),
+  //   //   url: webPageUrl
+  //   // });
+  //   // sending.then(handleResponse, handleError);  
+  // }
+
 }
-// var intervalId = setInterval(saved,30000); 
+var intervalId = setInterval(saved,30000); 
